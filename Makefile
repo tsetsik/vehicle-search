@@ -1,4 +1,4 @@
-.PHONY: dep, generate
+.PHONY: dep generate lint unit_tests ci
 
 ## Ensure all dependencies are up to date
 deps:
@@ -17,6 +17,12 @@ lint:
 unit_tests:
 	@echo "Running unit tests..."
 	@go test -race ./...
+
+service_tests:
+	ginkgo -p \
+		-coverpkg=./... \
+		-coverprofile=service_coverage.out \
+ 		-tags="service_test" ./test/service/...
 
 ci:
 	@$(MAKE) lint

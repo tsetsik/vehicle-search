@@ -17,10 +17,6 @@ func main() {
 		panic(err)
 	}
 
-	if err := httpSvc.Start(ctx); err != nil {
-		panic(err)
-	}
-
 	var gracefulStop = make(chan os.Signal, 1)
 	signal.Notify(
 		gracefulStop,
@@ -31,13 +27,15 @@ func main() {
 	go func() {
 		select {
 		case <-gracefulStop:
-		case <-ctx.Done():
 			cancel()
-			//nolint:errcheck
 			httpSvc.Stop()
-			// handle it
 			os.Exit(0)
+		case <-ctx.Done():
+			return
 		}
-
 	}()
+
+	if err := httpSvc.Start(ctx); err != nil {
+		panic(err)
+	}
 }

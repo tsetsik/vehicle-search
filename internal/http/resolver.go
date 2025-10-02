@@ -61,6 +61,7 @@ func (h *Handler) Listings(w http.ResponseWriter, r *http.Request) {
 		h.responde(w, http.StatusBadRequest, []byte("Invalid listing"))
 	}
 
+	h.logger.Info("New listing added", slog.Any("item", item))
 	h.responde(w, http.StatusOK, []byte("Request received"))
 }
 

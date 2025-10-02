@@ -6,6 +6,8 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"path/filepath"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -23,7 +25,8 @@ type Service struct {
 }
 
 func NewService() (*Service, error) {
-	if err := godotenv.Load("../../.env"); err != nil {
+	_, b, _, _ := runtime.Caller(0)
+	if err := godotenv.Load(filepath.Dir(b) + "/../../.env"); err != nil {
 		panic(err.Error())
 	}
 
@@ -41,6 +44,10 @@ func NewService() (*Service, error) {
 	return &Service{
 		cfg: *cfg,
 	}, nil
+}
+
+func (s *Service) Config() config.Config {
+	return s.cfg
 }
 
 func (s *Service) Start(ctx context.Context) error {
