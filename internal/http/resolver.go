@@ -3,7 +3,6 @@ package http
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log/slog"
 	"net/http"
 
@@ -30,16 +29,23 @@ func NewHttpResolver(ctx context.Context, logger *slog.Logger, cfg config.Config
 }
 
 func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
-	q := r.URL.Query()
+	search := r.Header.Get("q")
 
-	search := q.Get("q")
-	results, err := h.seSvc.Search(search)
+	filter := core.ItemsFilter{
+		Q: search,
+	}
+	results, err := h.seSvc.Search(filter)
 	if err != nil {
 		http.Error(w, "Search error", http.StatusInternalServerError)
 		return
 	}
 
-	h.responde(w, http.StatusOK, []byte(fmt.Sprintf("Search results: %v", results)))
+	response, err := json.Marshal(map[string]any{"items": results})
+	if err != nil {
+		http.Error(w, "Search error", http.StatusInternalServerError)
+	}
+	defer r.Body.Close()
+	h.responde(w, http.StatusOK, response)
 }
 
 func (h *Handler) Listings(w http.ResponseWriter, r *http.Request) {
@@ -57,11 +63,11 @@ func (h *Handler) Listings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.listings.AddItem(raw); err != nil {
+	if err := h.listings.AddItem(item); err != nil {
 		h.responde(w, http.StatusBadRequest, []byte("Invalid listing"))
 	}
 
-	h.logger.Info("New listing added", slog.Any("item", item))
+	h.logger.Info("New listing added", slog.Any("items", item))
 	h.responde(w, http.StatusOK, []byte("Request received"))
 }
 

@@ -47,6 +47,20 @@ func (mr *MockStoreMockRecorder) AddItem(item interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddItem", reflect.TypeOf((*MockStore)(nil).AddItem), item)
 }
 
+// GetAllItems mocks base method.
+func (m *MockStore) GetAllItems() []any {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllItems")
+	ret0, _ := ret[0].([]any)
+	return ret0
+}
+
+// GetAllItems indicates an expected call of GetAllItems.
+func (mr *MockStoreMockRecorder) GetAllItems() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllItems", reflect.TypeOf((*MockStore)(nil).GetAllItems))
+}
+
 // GetItem mocks base method.
 func (m *MockStore) GetItem(hash string) any {
 	m.ctrl.T.Helper()

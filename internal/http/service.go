@@ -61,9 +61,9 @@ func (s *Service) Start(ctx context.Context) error {
 	mux := mux.NewRouter()
 
 	cache := cache.NewLRUCacheStore(100)
-	sotre := core.NewStore(cache)
+	itemStore := core.NewStore[core.Item](cache)
 
-	httpResolver := NewHttpResolver(ctx, logger, s.cfg, sotre)
+	httpResolver := NewHttpResolver(ctx, logger, s.cfg, itemStore)
 
 	mux.HandleFunc("/search", httpResolver.Search).Methods(http.MethodGet)
 	mux.HandleFunc("/listings", httpResolver.Listings).Methods(http.MethodPost)

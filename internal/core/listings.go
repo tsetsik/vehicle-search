@@ -2,7 +2,7 @@ package core
 
 type (
 	Listings interface {
-		AddItem(listing []byte) error
+		AddItem(items Item) error
 	}
 
 	listings struct {
@@ -16,6 +16,6 @@ func NewListings(store Store) Listings {
 	}
 }
 
-func (ls *listings) AddItem(listing []byte) error {
-	return ls.store.AddItem(listing)
+func (ls *listings) AddItem(item Item) error {
+	return ls.store.AddItem(item)
 }
