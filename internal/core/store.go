@@ -48,12 +48,7 @@ func (s *store) GetItem(hash string) any {
 }
 
 func (s *store) GetAllItems() []any {
-	items := s.cache.List()
-	result := make([]any, 0, len(items))
-	for _, item := range items {
-		result = append(result, item)
-	}
-	return result
+	return s.cache.List()
 }
 
 func (s *store) Hash(item any) (string, error) {

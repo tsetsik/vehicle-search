@@ -1,4 +1,5 @@
 //go:build service_test
+// +build service_test
 
 package test
 

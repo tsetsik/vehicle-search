@@ -26,6 +26,7 @@ func main() {
 
 	go func() {
 		select {
+		//nolint:errcheck
 		case <-gracefulStop:
 			cancel()
 			httpSvc.Stop()

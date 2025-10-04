@@ -44,7 +44,7 @@ func (h *Handler) Search(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Search error", http.StatusInternalServerError)
 	}
-	defer r.Body.Close()
+	defer r.Body.Close() //nolint:errcheck
 	h.responde(w, http.StatusOK, response)
 }
 

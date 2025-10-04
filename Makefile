@@ -1,4 +1,4 @@
-.PHONY: dep generate lint unit_tests ci
+.PHONY: dep generate lint unit_tests service_tests ci
 
 ## Ensure all dependencies are up to date
 deps:
@@ -22,8 +22,9 @@ service_tests:
 	ginkgo -p \
 		-coverpkg=./... \
 		-coverprofile=service_coverage.out \
- 		-tags="service_test" ./test/service/...
+ 		-tags="service_test" ./test/...
 
 ci:
 	@$(MAKE) lint
 	@$(MAKE) unit_tests
+	@$(MAKE) service_tests
