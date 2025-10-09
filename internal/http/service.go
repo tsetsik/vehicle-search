@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/tsetsik/vehicle-search/internal/cache"
+	cache "github.com/tsetsik/lru-cache"
 	"github.com/tsetsik/vehicle-search/internal/config"
 	"github.com/tsetsik/vehicle-search/internal/core"
 	"github.com/tsetsik/vehicle-search/internal/ratelimiter"
@@ -60,7 +60,7 @@ func (s *Service) Start(ctx context.Context) error {
 
 	mux := mux.NewRouter()
 
-	cache := cache.NewLRUCacheStore(100)
+	cache := cache.NewCacheStore(100)
 	itemStore := core.NewStore[core.Item](cache)
 
 	httpResolver := NewHttpResolver(ctx, logger, s.cfg, itemStore)

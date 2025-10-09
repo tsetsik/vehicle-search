@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/tsetsik/vehicle-search/internal/cache"
+	cache "github.com/tsetsik/lru-cache"
 )
 
 type (

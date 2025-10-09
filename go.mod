@@ -13,6 +13,7 @@ require (
 	github.com/onsi/gomega v1.38.2
 	github.com/samber/lo v1.51.0
 	github.com/stretchr/testify v1.11.1
+	github.com/tsetsik/lru-cache v0.0.0-20251009123407-eeba58e94b76
 )
 
 require (
